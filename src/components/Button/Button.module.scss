@@ -1,0 +1,21 @@
+@import '../../assets/styles/App.scss';
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primaryGreen;
+    padding: 10px 15px;
+    border-radius: 8px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.icon{
+    margin-right: 10px;
+    svg{
+        path{
+            fill:white;
+        }
+    }
+}
