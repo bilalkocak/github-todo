@@ -34,8 +34,14 @@
   }
 }
 
-.centered{
+.centered {
   display: flex;
   justify-content: center;
   margin-top: 125px;
+}
+
+.desc {
+  &.active {
+    text-decoration: line-through;
+  }
 }

@@ -44,7 +44,7 @@ const SubTodoList = ({todos, refresh}) => {
                     </label>
 
                     <label htmlFor={`${index}-${todo.id}`}>
-                        <span>{todo.text}</span>
+                        <span className={classNames(styles.desc, todo.is_done && styles.active)}>{todo.text}</span>
                     </label>
 
                 </div>
