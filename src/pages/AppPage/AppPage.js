@@ -4,17 +4,12 @@ import RepoList from "../../components/RepoList/RepoList";
 import TodoList from "../../components/TodoList/TodoList";
 
 const AppPage = () => {
-
     return (
-
         <div className={styles.container}>
-
-            <RepoList />
-            <TodoList />
+            <RepoList/>
+            <TodoList/>
         </div>
-
-    )
-        ;
+    );
 };
 
 
