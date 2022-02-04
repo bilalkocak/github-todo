@@ -43,9 +43,7 @@ function MainPage() {
            setUser(users[0])
        }
     }
-    const signOut = async () => {
-        await supabase.auth.signOut();
-    }
+
 
     const addUser = async (email) => {
         await supabase

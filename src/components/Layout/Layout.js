@@ -1,14 +1,28 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import styles from './Layout.module.scss'
 import Button from "../Button/Button";
 import {ToastContainer} from "react-toastify";
+import {supabase} from "../../client";
+import AppContext from "../../Context/ContextProvider";
+import {useNavigate} from "react-router-dom";
+
 const Layout = props => {
+    let navigate = useNavigate();
+
+    const {user, setUser, setToken} = useContext(AppContext);
+
+    const signOut = async () => {
+        await supabase.auth.signOut();
+        setUser(null);
+        setToken(null);
+        navigate('/')
+    }
     return (
         <div>
-            <div className={styles.header}>
-               <h1>TODO APP</h1>
-                <Button text={'Logout'}/>
-            </div>
+            {user && <div className={styles.header}>
+                <h1>TODO APP</h1>
+                <Button onClick={() => signOut()} text={'Logout'}/>
+            </div>}
             <div className={styles.content}>
                 {props.children}
             </div>
@@ -28,8 +42,6 @@ const Layout = props => {
     );
 };
 
-Layout.propTypes = {
-
-};
+Layout.propTypes = {};
 
 export default Layout;

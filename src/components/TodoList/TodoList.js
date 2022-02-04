@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect,useState} from 'react';
 import TodoItem from "../TodoItem/TodoItem";
 import styles from './TodoList.module.scss';
 import TextArea from "../TextArea/TextArea";
@@ -6,11 +6,14 @@ import Button from "../Button/Button";
 import {supabase} from "../../client";
 import AppContext from "../../Context/ContextProvider";
 import {toast} from 'react-toastify';
+import PuffLoader from "react-spinners/PuffLoader";
 
 
 const TodoList = () => {
-    const [todoText, setTodoText] = React.useState('');
-    const [todos, setTodos] = React.useState([]);
+    const [todoText, setTodoText] = useState('');
+    const [todos, setTodos] = useState([]);
+    const [todosLoading, setTodosLoading] = useState(true);
+    const [isSubMode, setIsSubMode] = useState(false);
     const {user} = useContext(AppContext);
 
     const fetchTodos = async () => {
@@ -21,7 +24,7 @@ const TodoList = () => {
         setTodos(_todos);
     }
     useEffect(() => {
-        fetchTodos()
+        fetchTodos().finally(() => setTodosLoading(false));
     }, [user]);
 
     const addTodo = async () => {
@@ -44,6 +47,13 @@ const TodoList = () => {
     return (
         <div className={styles.container}>
             <h2>My Todo List</h2>
+            {todosLoading && <div className={styles.centered}>
+                <PuffLoader
+                    size={100}
+                    color={"#123abc"}
+                    loading={true}
+                />
+            </div>}
             {todos.map((todo, index) => (
                 <TodoItem key={todo.id} todo={todo} order={index + 1}/>
             ))}
