@@ -23,6 +23,14 @@ const SubTodoList = ({todos, refresh}) => {
 
     return (
         <div>
+            {
+                todos.length === 0
+                &&
+                <div className={styles.centered}>
+                    <p>No todos</p>
+                </div>
+            }
+
             {todos.map((todo, index) => (
                 <div className={styles.item} key={todo.id}>
                     <label htmlFor={`${index}-${todo.id}`}>
