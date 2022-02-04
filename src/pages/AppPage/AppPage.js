@@ -1,31 +1,21 @@
-import React, {createContext, useContext} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import styles from './AppPage.module.scss'
 import RepoList from "../../components/RepoList/RepoList";
 import TodoList from "../../components/TodoList/TodoList";
 
-const AppPage = props => {
+const AppPage = () => {
 
     return (
 
         <div className={styles.container}>
 
-            <RepoList repos={[]}/>
-            <TodoList todos={[{
-                id: 1,
-                text:  "bilal",
-                isCompleted: false
-            }, {
-                id: 2,
-                text: 'Сделать задание по Redux',
-                isCompleted: false
-            }]}/>
+            <RepoList />
+            <TodoList />
         </div>
 
     )
         ;
 };
 
-AppPage.propTypes = {};
 
 export default AppPage;
