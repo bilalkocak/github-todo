@@ -3,6 +3,8 @@ import RepoItem from '../RepoItem/RepoItem';
 import styles from './RepoList.module.scss'
 import axios from "axios";
 import AppContext from "../../Context/ContextProvider";
+import PuffLoader from "react-spinners/PuffLoader";
+import {useNavigate} from "react-router-dom";
 
 const RepoList = () => {
     const {token} = useContext(AppContext);
@@ -12,7 +14,11 @@ const RepoList = () => {
         fetchRepos();
     }, [token]);
 
-    const fetchRepos = async () => {
+    useEffect(() => {
+        !Boolean(token) && navigate('/');
+    }, []);
+
+    const fetchRepos = () => {
         axios.get('https://api.github.com/user/repos?per_page=100', {
             headers: {
                 Authorization: 'token ' + token //the token is a variable which holds the token

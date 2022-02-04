@@ -1,11 +1,18 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useEffect, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 
 const AppContext = createContext();
 
 export const ContextProvider = ({children}) => {
-    const [token, setToken] = useState("Hello World")
+    let navigate = useNavigate();
+    const [token, setToken] = useState(null)
 
-    const value={
+    useEffect(() => {
+        if(Boolean(token)) {
+            navigate('/app')
+        }
+    }, [token])
+    const value = {
         token,
         setToken
     }

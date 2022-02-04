@@ -3,12 +3,11 @@ import styles from './MainPage.module.scss';
 import Button from '../../components/Button/Button';
 import {Github} from "../../components/icons";
 import {supabase} from "../../client";
-import {useNavigate} from "react-router-dom";
 import AppContext from "../../Context/ContextProvider";
 
 
 function MainPage() {
-    let navigate = useNavigate();
+
     const {setToken} = useContext(AppContext);
 
 
@@ -35,7 +34,6 @@ function MainPage() {
     useEffect(() => {
         window.addEventListener('hashchange', () => {
             setToken(supabase.auth.session().provider_token)
-            navigate('/app')
         })
     }, []);
 
