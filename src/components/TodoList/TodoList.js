@@ -32,7 +32,7 @@ const TodoList = () => {
             .from('sub_task')
             .select("*")
             .eq('todo_id', id)
-            .order('is_done', { ascending: false })
+            .order('is_done', { ascending: true })
         setSubTodos(_todos);
     }
     useEffect(() => {
