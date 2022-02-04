@@ -40,7 +40,9 @@ const SubTodoList = ({todos, refresh}) => {
                 todos.length === 0
                 &&
                 <div className={styles.centered}>
-                    <p>No todos</p>
+                    <p>
+                        You have no sub todo
+                    </p>
                 </div>
             }
 
