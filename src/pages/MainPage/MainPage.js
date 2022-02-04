@@ -1,57 +1,44 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useContext} from 'react';
 import styles from './MainPage.module.scss';
 import Button from '../../components/Button/Button';
 import {Github} from "../../components/icons";
 import {supabase} from "../../client";
+import {useNavigate} from "react-router-dom";
+import AppContext from "../../Context/ContextProvider";
 
 
-function MainPage(props) {
-    const [users, setUsers] = useState([]);
-    const [user, setUser] = useState(null);
+function MainPage() {
+    let navigate = useNavigate();
+    const {setToken} = useContext(AppContext);
 
-
-    const fetchUsers = async () => {
-        let { data: users, error } = await supabase
-            .from('users')
-            .select('*')
-        setUsers(users)
-    }
-
-    const checkUser = async () => {
-        const _user = await supabase.auth.user();
-        setUser(_user)
-    }
 
     const signInWithGithub = async () => {
         await supabase.auth.signIn({
             provider: 'github',
-        });
+        }, {
+            scopes: 'repo gist notifications'
+        })
+
     }
     const signOut = async () => {
         await supabase.auth.signOut();
-        setUser(null)
     }
 
     const addUser = async () => {
         await supabase
             .from('users')
             .insert([
-                { name: 'test' },
-            ], { returning: 'minimal' })
+                {name: 'test'},
+            ], {returning: 'minimal'})
             .single()
     }
     useEffect(() => {
         window.addEventListener('hashchange', () => {
-            checkUser();
+            setToken(supabase.auth.session().provider_token)
+            navigate('/app')
         })
-        fetchUsers()
     }, []);
 
-    useEffect(()=>{
-        if(user?.aud==="authenticated") {
-            // içeri al
-        }
-    },[user])
 
     return <div className={styles.container}>
         <div className={styles.content}>
@@ -60,10 +47,12 @@ function MainPage(props) {
                 This is a simple todo list app.
             </p>
             <Button
-                onClick={signInWithGithub}
+                customClass={styles.button}
+                onClick={() => signInWithGithub()}
                 text={'Sign In With Github'}
-                icon={<Github />}
+                icon={<Github/>}
             />
+
         </div>
     </div>;
 }
