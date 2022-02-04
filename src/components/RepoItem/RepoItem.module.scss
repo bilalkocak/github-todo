@@ -1,0 +1,65 @@
+@import "/src/assets/styles/App.scss";
+
+.container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 2px solid;
+  padding: 10px;
+  min-height: 50px;
+  border-radius: 8px;
+}
+
+.order {
+  min-width: 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background-color: $primaryGreen;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+
+  h4 {
+    margin: 0;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.desc{
+  margin-top: 10px;
+}
+
+.topics{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 5px;
+}
+
+.topic{
+  padding: 5px 10px;
+  background-color: $primaryGreen;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  font-size: 12px;
+  user-select: none;
+  cursor: pointer;
+}
