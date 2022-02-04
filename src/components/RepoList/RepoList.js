@@ -9,6 +9,9 @@ import {useNavigate} from "react-router-dom";
 const RepoList = () => {
     const {token} = useContext(AppContext);
     const [repoList, setRepoList] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchRepos();
@@ -27,19 +30,35 @@ const RepoList = () => {
             .then(res => {
                 setRepoList(res.data);
             })
+            .finally(() => {
+                setLoading(false);
+            });
     }
     return (
         <div className={styles.container}>
             <h2>My Github Repos</h2>
-            <div>
-                {
-                    repoList.map(repo => {
-                        return (
-                            <RepoItem key={repo.id} repo={repo}/>
-                        )
-                    })
-                }
-            </div>
+            {loading ?
+                <div className={styles.centered}>
+                    <PuffLoader
+                        size={100}
+                        color={"#123abc"}
+                        loading={true}
+                    />
+                </div>
+                :
+                <div>
+                    {repoList.length > 0 ?
+                            repoList.map((repo, index) => {
+                                return (
+                                    <RepoItem key={repo.id} repo={repo} order={index + 1}/>
+                                )
+                            })
+                        :
+                        <div className={styles.centered}>
+                            You have no repositories
+                        </div>}
+                </div>
+            }
         </div>
     );
 };
