@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Button.module.scss';
-function Button({ text, onClick, icon, ...props }) {
+import classNames from 'classnames';
+
+function Button({text, onClick, icon, customClass, ...props}) {
     return (
         <div
             onClick={onClick}
-            className={styles.container}
+            className={classNames(styles.container,
+                {
+                    [customClass]: Boolean(customClass)
+                }
+            )}
             {...props}>
             {icon && <div className={styles.icon}>{icon}</div>}
             {text}
@@ -15,6 +21,8 @@ function Button({ text, onClick, icon, ...props }) {
 Button.propTypes = {
     text: PropTypes.string.isRequired,
     onClick: PropTypes.func,
+    icon: PropTypes.element,
+    customClass: PropTypes.string
 };
 
 export default Button;
