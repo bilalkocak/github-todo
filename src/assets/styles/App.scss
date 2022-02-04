@@ -1,9 +1,26 @@
-$primaryTextColor:#fff;
-$primaryBackgroundColor:#1e1e1e;
-$secondaryTextColor:#bbbbbb;
-$primaryGreen:#24b47e;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+$primaryTextColor: #fff;
+$primaryBackgroundColor: #1e1e1e;
+$secondaryTextColor: #bbbbbb;
+$primaryGreen: #24b47e;
 
 body {
   background-color: $primaryBackgroundColor;
   color: $primaryTextColor;
+  font-family: 'Roboto', sans-serif;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: $primaryGreen;
+  }
+
+  * {
+    box-sizing: border-box;
+    border-color: $primaryGreen;
+  }
+
+  a{
+    color: $primaryGreen;
+  }
 }
