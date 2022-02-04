@@ -1,0 +1,31 @@
+@import "/src/assets/styles/App.scss";
+
+.container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.order {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background-color: $primaryGreen;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.text{
+  margin-right: 10px;
+}
+
+.detail{
+  color: $primaryGreen;
+
+  &:hover{
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
