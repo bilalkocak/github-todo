@@ -45,3 +45,13 @@
     text-decoration: line-through;
   }
 }
+
+.delete{
+  color: red;
+  cursor: pointer;
+  margin-left: 10px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -13,11 +13,24 @@ const SubTodoList = ({todos, refresh}) => {
             .eq('id', id)
     }
 
-    const onChange = (e, id, status, parentId) => {
+    const onChange = (id, status, parentId) => {
         toggleCheckbox(id, status).then(() => {
             toast("Todo updated successfully");
             refresh(parentId)
         })
+    }
+
+    const onClickDelete = async (id, parentId) => {
+        const {error} = await supabase
+            .from('sub_task')
+            .delete()
+            .eq('id', id)
+        if (error) {
+            toast.error("Error deleting todo");
+        } else {
+            toast.success("Todo deleted successfully");
+            refresh(parentId)
+        }
     }
 
 
@@ -35,7 +48,7 @@ const SubTodoList = ({todos, refresh}) => {
                 <div className={styles.item} key={todo.id}>
                     <label htmlFor={`${index}-${todo.id}`}>
                         <div className={classNames(styles.checkbox, todo.is_done && styles.active)}>
-                            <input type="checkbox" onChange={e => onChange(e, todo.id, todo.is_done, todo.todo_id)}
+                            <input type="checkbox" onChange={() => onChange(todo.id, todo.is_done, todo.todo_id)}
                                    className={styles.realCheckbox}
                                    id={`${index}-${todo.id}`}
                                    value={todo.is_done}/>
@@ -46,6 +59,10 @@ const SubTodoList = ({todos, refresh}) => {
                     <label htmlFor={`${index}-${todo.id}`}>
                         <span className={classNames(styles.desc, todo.is_done && styles.active)}>{todo.text}</span>
                     </label>
+
+                    <div className={styles.delete} onClick={() => onClickDelete(todo.id, todo.todo_id)}>
+                        Delete
+                    </div>
 
                 </div>
             ))}
