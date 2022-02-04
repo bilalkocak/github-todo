@@ -58,6 +58,10 @@ const TodoList = () => {
     }
 
     const handleSubmit = () => {
+        if(todoText===""){
+            toast.error("Please enter a todo");
+            return;
+        }
         isSubMode ?
             addSubTodo()
                 .then(() => {
