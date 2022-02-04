@@ -1,0 +1,35 @@
+@import "/src/assets/styles/App.scss";
+
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.realCheckbox {
+  display: none;
+}
+
+.checkbox {
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+
+  &.active {
+    background-color: $primaryGreen;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+
+    path {
+      fill: #fff;
+    }
+  }
+}
