@@ -17,10 +17,10 @@ body {
 
   * {
     box-sizing: border-box;
-    border-color: $primaryGreen;
+    border-color: $primaryGreen !important;
   }
 
-  a{
+  a {
     color: $primaryGreen;
   }
 }
