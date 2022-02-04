@@ -6,6 +6,7 @@ const AppContext = createContext();
 export const ContextProvider = ({children}) => {
     let navigate = useNavigate();
     const [token, setToken] = useState(null)
+    const [user, setUser] = useState(null)
 
     useEffect(() => {
         if(Boolean(token)) {
@@ -14,7 +15,9 @@ export const ContextProvider = ({children}) => {
     }, [token])
     const value = {
         token,
-        setToken
+        setToken,
+        user,
+        setUser
     }
     return (
         <AppContext.Provider value={value}>

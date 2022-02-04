@@ -8,7 +8,7 @@ import AppContext from "../../Context/ContextProvider";
 
 function MainPage() {
 
-    const {setToken} = useContext(AppContext);
+    const {setToken,setUser} = useContext(AppContext);
 
 
     const signInWithGithub = async () => {
@@ -18,22 +18,48 @@ function MainPage() {
             scopes: 'repo gist notifications'
         })
 
+
+
+    }
+
+    const fetchUsers = async () => {
+        let {data: users, error} = await supabase
+            .from('users')
+            .select("*")
+
+            // Filters
+            .eq('mail', 'Equal to')
+    }
+
+    const fetchUser = async (email) => {
+        let { data: users, error } = await supabase
+            .from('users')
+            .select("*")
+            .eq('mail', email)
+
+       if(users.length===0){
+           await addUser(email)
+       }else{
+           setUser(users[0])
+       }
     }
     const signOut = async () => {
         await supabase.auth.signOut();
     }
 
-    const addUser = async () => {
+    const addUser = async (email) => {
         await supabase
             .from('users')
             .insert([
-                {name: 'test'},
+                {mail: email},
             ], {returning: 'minimal'})
             .single()
     }
     useEffect(() => {
         window.addEventListener('hashchange', () => {
             setToken(supabase.auth.session().provider_token)
+            const user = supabase.auth.user()
+            fetchUser(user.email)
         })
     }, []);
 
