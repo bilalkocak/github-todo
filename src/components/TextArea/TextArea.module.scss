@@ -1,0 +1,22 @@
+@import "/src/assets/styles/App.scss";
+
+.container {
+  textarea {
+    background-color: transparent;
+    border: 2px solid $secondaryTextColor;
+    outline: none;
+    color: $primaryTextColor;
+    font-family: 'Roboto', sans-serif;
+    resize: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    padding: 10px;
+    font-size: 16px;
+    width: 260px;
+    height: 60px;
+
+    &:focus {
+      border-color:  $primaryGreen;
+    }
+  }
+}
