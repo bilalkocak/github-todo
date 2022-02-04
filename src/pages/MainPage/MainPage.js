@@ -7,9 +7,7 @@ import AppContext from "../../Context/ContextProvider";
 
 
 function MainPage() {
-
-    const {setToken,setUser} = useContext(AppContext);
-
+    const {setToken, setUser} = useContext(AppContext);
 
     const signInWithGithub = async () => {
         await supabase.auth.signIn({
@@ -17,31 +15,19 @@ function MainPage() {
         }, {
             scopes: 'repo gist notifications'
         })
-
-
-
-    }
-
-    const fetchUsers = async () => {
-        let {data: users, error} = await supabase
-            .from('users')
-            .select("*")
-
-            // Filters
-            .eq('mail', 'Equal to')
     }
 
     const fetchUser = async (email) => {
-        let { data: users, error } = await supabase
+        let {data: users, error} = await supabase
             .from('users')
             .select("*")
             .eq('mail', email)
 
-       if(users.length===0){
-           await addUser(email)
-       }else{
-           setUser(users[0])
-       }
+        if (users.length === 0) {
+            await addUser(email)
+        } else {
+            setUser(users[0])
+        }
     }
 
 
