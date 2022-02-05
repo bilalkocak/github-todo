@@ -1,0 +1,21 @@
+@import "/src/assets/styles/App.scss";
+
+.container {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+
+.backButton {
+  color: $primaryGreen;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

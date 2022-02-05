@@ -3,93 +3,72 @@ import TodoItem from "../TodoItem/TodoItem";
 import styles from './TodoList.module.scss';
 import TextArea from "../TextArea/TextArea";
 import Button from "../Button/Button";
-import {supabase} from "../../client";
 import AppContext from "../../Context/ContextProvider";
 import {toast} from 'react-toastify';
 import PuffLoader from "react-spinners/PuffLoader";
 import SubTodoList from "../SubTodoList/SubTodoList";
+import TodoListHeader from "../TodoListHeader/TodoListHeader";
 
 
 const TodoList = () => {
     const [todoText, setTodoText] = useState('');
-    const [todos, setTodos] = useState([]);
-    const [subTodos, setSubTodos] = useState([]);
     const [todosLoading, setTodosLoading] = useState(true);
-    const [isSubMode, setIsSubMode] = useState(false);
-    const [subId, setSubId] = useState(null);
-    const {user} = useContext(AppContext);
+    const [selectedTodo, setSelectedTodo] = useState(null);
+    const {
+        fetchTodos,
+        addSubTodo,
+        fetchSubTodos,
+        addTodo,
+        subTodos,
+        todos,
+        session,
+        deleteTodo
+    } = useContext(AppContext);
 
-    const fetchTodos = async () => {
-        let {data: _todos} = await supabase
-            .from('todos')
-            .select("*")
-            .eq('user_id', user.id)
-        setTodos(_todos);
-    }
 
-    const fetchSubTodos = async (id) => {
-        let {data: _todos} = await supabase
-            .from('sub_task')
-            .select("*")
-            .eq('todo_id', id)
-            .order('is_done', { ascending: true })
-        setSubTodos(_todos);
-    }
     useEffect(() => {
-        fetchTodos().finally(() => setTodosLoading(false));
-    }, [user]);
+        if (session) {
+            fetchTodos().finally(() => setTodosLoading(false));
+        }
+    }, [session]);
 
-    const addTodo = async () => {
-        await supabase
-            .from('todos')
-            .insert([
-                {desc: todoText, user_id: user.id}
-            ], {returning: 'minimal'})
-            .single()
-    }
-
-    const addSubTodo = async () => {
-        await supabase
-            .from('sub_task')
-            .insert([
-                {text: todoText, todo_id: subId}
-            ], {returning: 'minimal'})
-            .single()
-    }
 
     const handleSubmit = () => {
-        if(todoText===""){
+        if (todoText === "") {
             toast.error("Please enter a todo");
             return;
         }
-        isSubMode ?
-            addSubTodo()
+        selectedTodo ?
+            addSubTodo(todoText, selectedTodo.id)
                 .then(() => {
                     setTodoText('');
-                    fetchSubTodos(subId).then(() => {
-                        setIsSubMode(true);
-                        setSubId(subId);
-                    })
-                    toast("Todo added successfully");
+                    fetchSubTodos(selectedTodo.id);
+                    toast.success("Todo added successfully");
                 })
             :
-            addTodo().then(() => {
+            addTodo(todoText).then(() => {
                 setTodoText('');
                 fetchTodos();
-                toast("Todo added successfully");
+                toast.success("Todo added successfully");
             })
 
     }
 
-    const handleClickTodo = (id) => {
-        fetchSubTodos(id).then((res) => {
-            setIsSubMode(true);
-            setSubId(id);
+    const handleClickTodoDetail = (todo) => {
+        fetchSubTodos(todo.id).then(() => {
+            setSelectedTodo(todo);
         })
+    }
+
+    const handleClickTodoDelete = (todo) => {
+        deleteTodo(todo.id)
     }
     return (
         <div className={styles.container}>
-            <h2 onClick={()=>setIsSubMode(false)}>My Todo List</h2>
+            <TodoListHeader
+                onClickBack={() => setSelectedTodo(null)}
+                selectedTodo={selectedTodo}
+            />
             {todosLoading && <div className={styles.centered}>
                 <PuffLoader
                     size={100}
@@ -98,13 +77,14 @@ const TodoList = () => {
                 />
             </div>}
             {
-                isSubMode ? <SubTodoList todos={subTodos} refresh={fetchSubTodos}/> :
-                    todos.map((todo, index) => (
+                selectedTodo ? <SubTodoList todos={subTodos} refresh={fetchSubTodos}/> :
+                    todos && todos.map((todo, index) => (
                         <TodoItem
                             key={todo.id}
                             todo={todo}
                             order={index + 1}
-                            onClick={handleClickTodo}
+                            onClickDetail={handleClickTodoDetail}
+                            onClickDelete={handleClickTodoDelete}
                         />
                     ))
             }
