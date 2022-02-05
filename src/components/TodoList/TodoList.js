@@ -14,6 +14,7 @@ const TodoList = () => {
     const [todoText, setTodoText] = useState('');
     const [todosLoading, setTodosLoading] = useState(true);
     const [selectedTodo, setSelectedTodo] = useState(null);
+    const [pendingAddTodo, setPendingAddTodo] = useState(false);
     const {
         fetchTodos,
         addSubTodo,
@@ -34,22 +35,28 @@ const TodoList = () => {
 
 
     const handleSubmit = () => {
+        if (pendingAddTodo) {
+            return;
+        }
         if (todoText === "") {
             toast.error("Please enter a todo");
             return;
         }
+        setPendingAddTodo(true)
         selectedTodo ?
             addSubTodo(todoText, selectedTodo.id)
                 .then(() => {
                     setTodoText('');
                     fetchSubTodos(selectedTodo.id);
                     toast.success("Todo added successfully");
+                    setPendingAddTodo(false);
                 })
             :
             addTodo(todoText).then(() => {
                 setTodoText('');
                 fetchTodos();
                 toast.success("Todo added successfully");
+                setPendingAddTodo(false);
             })
 
     }
