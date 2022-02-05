@@ -26,6 +26,7 @@ export const ContextProvider = ({children}) => {
                 break;
             case 'SIGNED_OUT':
                 setUser(null)
+                setSession(session)
                 navigate('/')
                 break;
             default:
