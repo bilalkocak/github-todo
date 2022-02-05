@@ -90,6 +90,8 @@ export const ContextProvider = ({children}) => {
             }
         }).then(res => {
             setRepoList(res.data);
+        }).catch(err => {
+            signOut()
         })
     }
 
