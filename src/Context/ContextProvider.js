@@ -37,7 +37,7 @@ export const ContextProvider = ({children}) => {
     const fetchTodos = async () => {
         let {data: _todos} = await supabase
             .from('todo')
-            .select("*")
+            .select('*, sub_task(todo_id)')
             .eq('uuid', user.id)
         setTodos(_todos);
     };

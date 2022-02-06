@@ -70,10 +70,15 @@ const TodoList = () => {
     const handleClickTodoDelete = (todo) => {
         deleteTodo(todo.id)
     }
+
+    const handleClickBack = () => {
+        setSelectedTodo(null)
+        fetchTodos();
+    }
     return (
         <div className={styles.container}>
             <TodoListHeader
-                onClickBack={() => setSelectedTodo(null)}
+                onClickBack={() => handleClickBack()}
                 selectedTodo={selectedTodo}
             />
             {todosLoading && <div className={styles.centered}>

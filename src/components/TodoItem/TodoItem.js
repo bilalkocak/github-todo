@@ -9,7 +9,7 @@ const TodoItem = ({todo, order, onClickDetail, onClickDelete}) => {
         <div className={styles.container}>
            <div className={styles.content}>
                <div className={styles.order}>{order}</div>
-               <div className={styles.text}>{todo.desc}</div>
+                <div className={styles.text}>{todo.desc} ({todo?.sub_task?.length})</div>
            </div>
             <div className={styles.buttons}>
                 <span className={styles.detail} onClick={() => onClickDetail(todo)}>
